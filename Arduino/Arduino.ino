@@ -19,7 +19,7 @@ void triggerAutomation()
   delay(100);
   Keyboard.releaseAll();
   delay(1000);
-  Keyboard.print("***REMOVED***");
+  Keyboard.print("5714");
   Keyboard.press(KEY_RETURN);
   delay(100);
   Keyboard.releaseAll();
