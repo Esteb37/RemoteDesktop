@@ -7,24 +7,10 @@
 
 CMD getCommand(String req)
 {
-    for (uint8_t i = 0; i < CMD::UNKNOWN; i++)
-    {
-
-        String command = str((CMD)i);
-
-        command = "/" + command;
-
-        req.toUpperCase();
-
-        uint8_t index = req.indexOf(command);
-
-        if (index != -1 && (req[index + command.length()] == req.length() || req[index + command.length()] == ' '))
-        {
-            return (CMD)i;
-        }
-    }
-
-    return CMD::UNKNOWN;
+    int start = req.indexOf("/");
+    int end = req.indexOf(" ", start);
+    String command = req.substring(start + 1, end);
+    return cmd(command);
 }
 
 void sendResponse(WiFiClient client, int code, String message)

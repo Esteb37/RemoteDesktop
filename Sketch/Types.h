@@ -4,11 +4,14 @@ enum CMD
     STOP,
     GETSTAT,
     DONE,
+    FAVICON,
     UNKNOWN,
 };
 
 CMD cmd(String command)
 {
+    command.toUpperCase();
+
     if (command == "START")
     {
         return CMD::START;
@@ -24,6 +27,10 @@ CMD cmd(String command)
     else if (command == "DONE")
     {
         return CMD::DONE;
+    }
+    else if (command == "FAVICON" || command == "FAVICON.ICO")
+    {
+        return CMD::FAVICON;
     }
     else
     {
@@ -43,6 +50,8 @@ String str(CMD cmd)
         return "GETSTAT";
     case DONE:
         return "DONE";
+    case FAVICON:
+        return "FAVICON";
     case UNKNOWN:
         return "UNKNOWN";
     }

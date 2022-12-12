@@ -34,42 +34,45 @@ namespace NODE
 
       CMD command = getCommand(req);
 
-      Console.print("Command: " + str(command) + " Response: ");
-
-      switch (command)
+      if (command != CMD::FAVICON)
       {
-      case CMD::START:
-        if (status == STAT::IDLE)
-        {
-          status = STAT::RUNNING;
-          sendOK(client);
-          writeNode(CMD::START);
-        }
-        else
-        {
-          sendError(client, "Already running");
-        }
-        break;
-      case CMD::STOP:
-        if (status == STAT::RUNNING)
-        {
-          status = STAT::IDLE;
-          sendOK(client);
-          writeNode(CMD::STOP);
-        }
-        else
-        {
-          sendError(client, "Already Stopped");
-        }
-        break;
+        Console.print("Command: " + str(command) + "\tResponse: ");
 
-      case CMD::GETSTAT:
-        sendOK(client, status == STAT::IDLE ? "IDLE" : "RUNNING");
-        break;
+        switch (command)
+        {
+        case CMD::START:
+          if (status == STAT::IDLE)
+          {
+            status = STAT::RUNNING;
+            sendOK(client);
+            writeNode(CMD::START);
+          }
+          else
+          {
+            sendError(client, "Already running");
+          }
+          break;
+        case CMD::STOP:
+          if (status == STAT::RUNNING)
+          {
+            status = STAT::IDLE;
+            sendOK(client);
+            writeNode(CMD::STOP);
+          }
+          else
+          {
+            sendError(client, "Already Stopped");
+          }
+          break;
 
-      default:
-        sendError(client, "Unknown Command");
-        break;
+        case CMD::GETSTAT:
+          sendOK(client, status == STAT::IDLE ? "IDLE" : "RUNNING");
+          break;
+
+        default:
+          sendError(client, "Unknown Command");
+          break;
+        }
       }
     }
 
