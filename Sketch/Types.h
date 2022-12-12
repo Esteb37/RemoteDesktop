@@ -12,11 +12,11 @@ CMD cmd(String command)
 {
     command.toUpperCase();
 
-    if (command == "START")
+    if (command == "START" || command == "RUN")
     {
         return CMD::START;
     }
-    else if (command == "STOP")
+    else if (command == "STOP" || command == "PAUSE")
     {
         return CMD::STOP;
     }

@@ -13,14 +13,13 @@ namespace NODE
 
   void loop()
   {
-    // Check if a client has connected
+
     WiFiClient client = WF::server.available();
     if (!client)
     {
       return;
     }
 
-    // Wait until the client sends some data
     while (!client.available())
     {
       delay(1);
@@ -36,7 +35,7 @@ namespace NODE
 
       if (command != CMD::FAVICON)
       {
-        Console.print("Command: " + str(command) + "\tResponse: ");
+        Console.print("HTTP Command: " + str(command) + "\tResponse: ");
 
         switch (command)
         {
