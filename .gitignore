@@ -3,3 +3,5 @@
 /Python/Secret.py
 /app/node_modules
 /app/src/secret.js
+/cert.txt
+/key.txt

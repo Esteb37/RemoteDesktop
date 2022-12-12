@@ -6,7 +6,7 @@ import * as Secret from './secret';
 import $ from 'jquery';
 
 function run() {
-	const url = `http://${Secret.ip}/START`;
+	const url = `https://${Secret.ip}/START`;
 
 	try {
 		$.ajax({
@@ -27,7 +27,7 @@ function run() {
 
 function stop() {
 	// Send http request to ip
-	const url = `http://${Secret.ip}/STOP`;
+	const url = `https://${Secret.ip}/STOP`;
 
 	try {
 		$.ajax({
@@ -51,7 +51,7 @@ function App() {
 		// Get the status every second
 		const interval = setInterval(() => {
 			// Send http request to ip
-			const url = `http://${Secret.ip}/GETSTAT`;
+			const url = `https://${Secret.ip}/GETSTAT`;
 
 			try {
 				$.ajax({
