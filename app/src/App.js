@@ -3,72 +3,53 @@ import './App.css';
 import * as React from 'react';
 import * as Mui from '@material-ui/core';
 import * as Secret from './secret';
+import LoadingButton from '@mui/lab/LoadingButton';
 import $ from 'jquery';
 
-function run() {
-	const url = `https://${Secret.ip}/START`;
-
-	try {
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType: 'text',
-			success: function (data) {
-				console.log(data);
-			},
-			error: function (error) {
-				console.log('Error: ', error.responseText);
-			},
-		});
-	} catch (error) {
-		console.log('Error: ', error);
-	}
-}
-
-function stop() {
-	// Send http request to ip
-	const url = `https://${Secret.ip}/STOP`;
-
-	try {
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType: 'text',
-			success: function (data) {
-				console.log(data);
-			},
-			error: function (error) {
-				console.log('Error: ', error.responseText);
-			},
-		});
-	} catch (error) {
-		console.log('Error: ', error);
-	}
-}
-
 function App() {
-	React.useEffect(() => {
-		// Call getStatus() every 1 second, only when the previous request was successful
-		const interval = setInterval(() => {
-			const url = `https://${Secret.ip}/STATUS`;
+	const [url] = React.useState(`https://${Secret.ip}/`);
 
-			try {
-				$.ajax({
-					url: url,
-					type: 'GET',
-					dataType: 'text',
-					success: function (data) {
-						setStat(data);
-					},
-					error: function (error) {
-						console.log('Error: ', error.responseText);
-					},
-				});
-			} catch (error) {
-				console.log('Error: ', error);
-			}
-		}, 1000);
-	}, []);
+	const [loading, setLoading] = React.useState({ run: false, stop: false });
+
+	function call(path) {
+		setLoading({ ...loading, [path.toLowerCase()]: true });
+
+		$.ajax({
+			url: url + path,
+			type: 'GET',
+			dataType: 'text',
+			success: function (data) {
+				console.log(data);
+			},
+			error: function (error) {
+				alert('Error: ', error);
+				console.log('Error: ', error.responseText);
+			},
+			complete: function () {
+				setLoading({ ...loading, [path.toLowerCase()]: false });
+			},
+		});
+	}
+
+	function getIt() {
+		$.ajax({
+			url: url + 'GETSTAT',
+			type: 'GET',
+			dataType: 'text',
+			success: function (data) {
+				setStat(data);
+				setTimeout(getIt, 2000);
+			},
+			error: function (error) {
+				alert('Error: ', error);
+				console.log('Error: ', error.responseText);
+			},
+		});
+	}
+
+	React.useEffect(() => {
+		getIt();
+	}, [getIt]);
 
 	const [stat, setStat] = React.useState('Waiting for status...');
 
@@ -86,20 +67,24 @@ function App() {
 					height: '100vh',
 					width: '100vw',
 				}}>
-				<Mui.Button
+				<LoadingButton
+					disabled={stat != 'IDLE'}
+					loading={loading.start}
 					style={{ margin: '1rem', width: '10rem' }}
 					variant='contained'
 					color='primary'
-					onClick={run}>
-					Run
-				</Mui.Button>
-				<Mui.Button
+					onClick={() => call('START')}>
+					Start
+				</LoadingButton>
+				<LoadingButton
+					disabled={stat == 'IDLE'}
+					loading={loading.stop}
 					style={{ margin: '1rem', width: '10rem' }}
 					variant='contained'
 					color='secondary'
-					onClick={stop}>
+					onClick={() => call('STOP')}>
 					Stop
-				</Mui.Button>
+				</LoadingButton>
 				<Mui.Typography variant='h6' style={{ margin: '1rem' }}>
 					{stat}
 				</Mui.Typography>

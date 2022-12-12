@@ -35,7 +35,7 @@ enum ERR
 
 CMD cmd(String command)
 {
-    command = "/" + command;
+    command.replace("/", "");
 
     command.toUpperCase();
 
