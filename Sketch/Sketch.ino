@@ -1,7 +1,7 @@
 #define IS_NODE
 
-#include "Ino.h"
-#include "Node.h"
+#include "Ino/Ino.h"
+#include "Node/Node.h"
 
 void setup()
 {

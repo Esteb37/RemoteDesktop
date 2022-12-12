@@ -1,3 +1,6 @@
+#ifndef TYPES_H
+#define TYPES_H
+
 enum CMD
 {
     START,
@@ -176,3 +179,5 @@ String str(ERR err)
         return "NONE";
     }
 }
+
+#endif

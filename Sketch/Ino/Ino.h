@@ -1,7 +1,7 @@
 #ifndef IS_NODE
 
-#include "Comm.h"
-#include "Secret.h"
+#include "../Common/Comm.h"
+#include "../Common/Secret.h"
 #include <Keyboard.h>
 
 namespace INO
