@@ -26,7 +26,6 @@ namespace INO
       delay(2000);
       if (readConsole() == CMD::LOGON)
       {
-        runPython();
         writeNode(CMD::DONE);
         return;
       }

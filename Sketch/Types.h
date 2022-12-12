@@ -3,11 +3,19 @@ enum CMD
     START,
     STOP,
     GETSTAT,
+    SETSTAT,
     DONE,
     FAVICON,
     LOGON,
     FAILURE,
     UNKNOWN,
+};
+
+enum Error
+{
+    NO_WIFI,
+    NO_SERIAL,
+    NO_PARSEC,
 };
 
 CMD cmd(String command)
@@ -25,6 +33,10 @@ CMD cmd(String command)
     else if (command == "GETSTAT" || command == "STATUS")
     {
         return CMD::GETSTAT;
+    }
+    else if (command == "SETSTAT" || command == "SETSTATUS")
+    {
+        return CMD::SETSTAT;
     }
     else if (command == "DONE")
     {
@@ -48,7 +60,8 @@ CMD cmd(String command)
     }
 }
 
-String str(CMD cmd)
+String
+str(CMD cmd)
 {
     switch (cmd)
     {
@@ -58,12 +71,12 @@ String str(CMD cmd)
         return "STOP";
     case GETSTAT:
         return "GETSTAT";
+    case SETSTAT:
+        return "SETSTAT";
     case DONE:
         return "DONE";
     case FAVICON:
         return "FAVICON";
-    case LOGON:
-        return "LOGON";
     case CMD::FAILURE:
         return "FAILURE";
     case UNKNOWN:
@@ -75,6 +88,9 @@ enum STAT
 {
     IDLE,
     RUNNING,
+    LOGON,
+    WIFI,
+    PARSEC,
     ERROR
 };
 
@@ -87,6 +103,18 @@ STAT stat(String stat)
     else if (stat == "RUNNING")
     {
         return STAT::RUNNING;
+    }
+    else if (stat == "LOGON")
+    {
+        return STAT::LOGON;
+    }
+    else if (stat == "WIFI")
+    {
+        return STAT::WIFI;
+    }
+    else if (stat == "PARSEC")
+    {
+        return STAT::PARSEC;
     }
     else
     {
