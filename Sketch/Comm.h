@@ -1,17 +1,17 @@
 #include "Types.h"
-#include <ESP8266WiFi.h>
 #include <String.h>
 
+#ifndef IS_NODE
 #define Console Serial
 #define Node Serial1
+#endif
 
-CMD getCommand(String req)
-{
-    int start = req.indexOf("/");
-    int end = req.indexOf(" ", start);
-    String command = req.substring(start + 1, end);
-    return cmd(command);
-}
+#ifdef IS_NODE
+
+#define Console Serial
+#define Node Serial
+
+#include <ESP8266WiFi.h>
 
 void sendResponse(WiFiClient client, int code, String message)
 {
@@ -26,25 +26,31 @@ void sendResponse(WiFiClient client, int code, String message)
 void sendOK(WiFiClient client)
 {
     sendResponse(client, 200, "OK");
-    Console.println("OK");
 }
 
 void sendOK(WiFiClient client, String message)
 {
     sendResponse(client, 200, message);
-    Console.println("OK - " + message);
 }
 
 void sendError(WiFiClient client)
 {
     sendResponse(client, 400, "Error");
-    Console.println("Error");
 }
 
 void sendError(WiFiClient client, String message)
 {
     sendResponse(client, 400, message);
-    Console.println("Error - " + message);
+}
+
+#endif
+
+CMD getCommand(String req)
+{
+    int start = req.indexOf("/");
+    int end = req.indexOf(" ", start);
+    String command = req.substring(start + 1, end);
+    return cmd(command);
 }
 
 void writeNode(CMD command)

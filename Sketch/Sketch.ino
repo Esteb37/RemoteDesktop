@@ -1,12 +1,10 @@
-#define IS_NODE
+// #define IS_NODE
 
 #include "Ino.h"
 #include "Node.h"
 
 void setup()
 {
-    Node.begin(115200);
-    Console.begin(9600);
 
 #ifdef IS_NODE
     NODE::setup();

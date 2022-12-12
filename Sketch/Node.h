@@ -8,6 +8,7 @@ namespace NODE
 
   void setup()
   {
+    Node.begin(115200);
     WF::setup();
   }
 
@@ -35,8 +36,6 @@ namespace NODE
 
       if (command != CMD::FAVICON)
       {
-        Console.print("HTTP Command: " + str(command) + "\tResponse: ");
-
         switch (command)
         {
         case CMD::START:
