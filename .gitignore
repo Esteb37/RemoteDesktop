@@ -1,7 +1,6 @@
 /.vscode
-/Sketch/Secret.h
-/Python/Secret.py
 /app/node_modules
-/app/src/secret.js
 /cert.txt
 /key.txt
+/Sketch/Common/Secret.h
+Secret.*

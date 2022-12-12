@@ -48,10 +48,9 @@ function stop() {
 
 function App() {
 	React.useEffect(() => {
-		// Get the status every second
+		// Call getStatus() every 1 second, only when the previous request was successful
 		const interval = setInterval(() => {
-			// Send http request to ip
-			const url = `https://${Secret.ip}/GETSTAT`;
+			const url = `https://${Secret.ip}/STATUS`;
 
 			try {
 				$.ajax({
@@ -68,9 +67,7 @@ function App() {
 			} catch (error) {
 				console.log('Error: ', error);
 			}
-		}, 500);
-
-		return () => clearInterval(interval);
+		}, 1000);
 	}, []);
 
 	const [stat, setStat] = React.useState('Waiting for status...');
