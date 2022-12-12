@@ -5,6 +5,7 @@
 namespace NODE
 {
   STAT status = STAT::IDLE;
+  ERR error = ERR::NONE;
 
   void setup()
   {
@@ -21,60 +22,81 @@ namespace NODE
       return;
     }
 
-    while (!client.available())
+    if (client.available())
     {
+
+      String req = client.readStringUntil('\r');
+      client.flush();
+
+      if (req.indexOf("") != -10)
+      {
+
+        CMD command = getCommand(req);
+
+        if (command != CMD::FAVICON)
+        {
+          switch (command)
+          {
+          case CMD::START:
+            if (status == STAT::IDLE)
+            {
+              status = STAT::RUNNING;
+              sendOK(client);
+              nodeCommand(CMD::START);
+            }
+            else
+            {
+              sendError(client, "Already running");
+            }
+            break;
+          case CMD::STOP:
+            if (status == STAT::RUNNING)
+            {
+              status = STAT::IDLE;
+              sendOK(client);
+              nodeCommand(CMD::STOP);
+            }
+            else
+            {
+              sendError(client, "Already Stopped");
+            }
+            break;
+
+          case CMD::GETSTAT:
+            if (status != STAT::ERROR)
+            {
+              sendOK(client, str(status));
+            }
+            else
+            {
+              sendError(client, str(error));
+            }
+            break;
+
+          default:
+            sendError(client, "Unknown Command");
+            break;
+          }
+        }
+      }
+
       delay(1);
     }
 
-    String req = client.readStringUntil('\r');
-    client.flush();
-
-    if (req.indexOf("") != -10)
+    if (Node.available() > 0)
     {
-
-      CMD command = getCommand(req);
-
-      if (command != CMD::FAVICON)
+      String line = Node.readStringUntil('\n');
+      CMD command = getCommand(line);
+      if (command == CMD::SETSTAT)
       {
-        switch (command)
-        {
-        case CMD::START:
-          if (status == STAT::IDLE)
-          {
-            status = STAT::RUNNING;
-            sendOK(client);
-            nodeCommand(CMD::START);
-          }
-          else
-          {
-            sendError(client, "Already running");
-          }
-          break;
-        case CMD::STOP:
-          if (status == STAT::RUNNING)
-          {
-            status = STAT::IDLE;
-            sendOK(client);
-            nodeCommand(CMD::STOP);
-          }
-          else
-          {
-            sendError(client, "Already Stopped");
-          }
-          break;
-
-        case CMD::GETSTAT:
-          sendOK(client, status == STAT::IDLE ? "IDLE" : "RUNNING");
-          break;
-
-        default:
-          sendError(client, "Unknown Command");
-          break;
-        }
+        status = getStat(line);
+      }
+      else if (command == CMD::FAILURE)
+      {
+        status = STAT::ERROR;
+        error = getErr(line);
       }
     }
-
-    delay(1);
   }
 }
 

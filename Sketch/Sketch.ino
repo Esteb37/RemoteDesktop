@@ -1,4 +1,4 @@
-// #define IS_NODE
+#define IS_NODE
 
 #include "Ino.h"
 #include "Node.h"
