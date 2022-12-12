@@ -11,36 +11,51 @@
 #define Console Serial
 #define Node Serial
 
-#include <ESP8266WiFi.h>
+#include "WifiSetup.h"
 
-void sendResponse(WiFiClient client, int code, String message)
+using namespace WF;
+
+void sendResponse(int code, String message)
 {
-    client.println("HTTP/1.1 " + String(code) + " " + message);
-    client.println("Content-Type: text/html");
-    client.println("Connection: close");
-    client.println();
-    client.println(message);
-    client.println();
+    setCrossOrigin();
+    server.send(code, "text/plain", message);
 }
 
-void sendOK(WiFiClient client)
+void sendOK()
 {
-    sendResponse(client, 200, "OK");
+    sendResponse(200, "OK");
 }
 
-void sendOK(WiFiClient client, String message)
+void sendOK(String message)
 {
-    sendResponse(client, 200, message);
+    sendResponse(200, message);
 }
 
-void sendError(WiFiClient client)
+void sendError()
 {
-    sendResponse(client, 400, "Error");
+    sendResponse(400, "Error");
 }
 
-void sendError(WiFiClient client, String message)
+void sendError(String message)
 {
-    sendResponse(client, 400, message);
+    sendResponse(400, message);
+}
+
+void sendNotFound()
+{
+    String message = "File Not Found\n\n";
+    message += "URI: ";
+    message += server.uri();
+    message += "\nMethod: ";
+    message += (server.method() == HTTP_GET) ? "GET" : "POST";
+    message += "\nArguments: ";
+    message += server.args();
+    message += "\n";
+    for (uint8_t i = 0; i < server.args(); i++)
+    {
+        message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+    }
+    server.send(404, "text/plain", message);
 }
 
 #endif
@@ -68,17 +83,17 @@ ERR getErr(String req)
 
 void nodeCommand(CMD command)
 {
-    Node.println("/" + str(command));
+    Node.println(str(command));
 }
 
 void nodeStatus(STAT status)
 {
-    Node.println("/" + str(CMD::SETSTAT) + "+" + str(status));
+    Node.println(str(CMD::SETSTAT) + "+" + str(status));
 }
 
 void nodeFailure(ERR failure)
 {
-    Node.println("/" + str(CMD::FAILURE) + "+" + str(failure));
+    Node.println(str(CMD::FAILURE) + "+" + str(failure));
 }
 
 CMD readConsole()

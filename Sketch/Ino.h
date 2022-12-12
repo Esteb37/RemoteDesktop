@@ -84,11 +84,11 @@ namespace INO
       if (command == CMD::SETSTAT)
       {
         STAT status = getStat(req);
-        Node.println("/" + str(command) + "+" + str(status));
+        Node.println(str(command) + "+" + str(status));
       }
       else if (command == CMD::FAILURE)
       {
-        Node.println("/" + str(command));
+        Node.println(str(command));
       }
     }
   }

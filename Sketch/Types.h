@@ -32,6 +32,8 @@ enum ERR
 
 CMD cmd(String command)
 {
+    command = "/" + command;
+
     command.toUpperCase();
 
     if (command == "START" || command == "RUN")
@@ -118,25 +120,33 @@ ERR err(String err)
 
 String str(CMD cmd)
 {
+    String command = "/";
     switch (cmd)
     {
     case START:
-        return "START";
+        return command + "START";
     case STOP:
-        return "STOP";
+        return command + "STOP";
     case GETSTAT:
-        return "GETSTAT";
+        return command + "GETSTAT";
     case SETSTAT:
-        return "SETSTAT";
+        return command + "SETSTAT";
     case DONE:
-        return "DONE";
+        return command + "DONE";
     case FAVICON:
-        return "FAVICON";
+        return command + "FAVICON";
     case CMD::FAILURE:
-        return "FAILURE";
-    case UNKNOWN:
-        return "UNKNOWN";
+        return command + "FAILURE";
+    default:
+        return command + "UNKNOWN";
     }
+}
+
+String str_low(CMD cmd)
+{
+    String command = str(cmd);
+    command.toLowerCase();
+    return command;
 }
 
 String str(STAT stat)
