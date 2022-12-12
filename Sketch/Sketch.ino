@@ -1,11 +1,14 @@
-#include <Ino.h>
-#include <Node.h>
+#define IS_NODE
 
-#define NODE
+#include "Ino.h"
+#include "Node.h"
 
 void setup()
 {
-#ifdef NODE
+    Node.begin(115200);
+    Console.begin(9600);
+
+#ifdef IS_NODE
     NODE::setup();
 #else
     INO::setup();
@@ -14,7 +17,7 @@ void setup()
 
 void loop()
 {
-#ifdef NODE
+#ifdef IS_NODE
     NODE::loop();
 #else
     INO::loop();

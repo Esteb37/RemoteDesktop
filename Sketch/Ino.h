@@ -1,5 +1,6 @@
-#include <Arduino.h>
-#include <Comm.h>
+#ifndef IS_NODE
+
+#include "Comm.h"
 #include <Keyboard.h>
 
 namespace INO
@@ -7,8 +8,6 @@ namespace INO
   void setup()
   {
     Keyboard.begin();
-    Node.begin(115200);
-    Console.begin(9200);
   }
 
   void loop()
@@ -25,3 +24,5 @@ namespace INO
   {
   }
 }
+
+#endif

@@ -1,12 +1,13 @@
+#include "Types.h"
 #include <ESP8266WiFi.h>
-#include <Types.h>
+#include <String.h>
 
-HardwareSerial Node = Serial1;
-Serial_ Console = Serial;
+#define Console Serial
+#define Node Serial1
 
 CMD getCommand(String req)
 {
-    for (uint8_t i = 0; i < UNKNOWN; i++)
+    for (uint8_t i = 0; i < CMD::UNKNOWN; i++)
     {
 
         String command = str((CMD)i);
@@ -24,6 +25,16 @@ CMD getCommand(String req)
     }
 
     return CMD::UNKNOWN;
+}
+
+void sendResponse(WiFiClient client, int code, String message)
+{
+    client.println("HTTP/1.1 " + String(code) + " " + message);
+    client.println("Content-Type: text/html");
+    client.println("Connection: close");
+    client.println();
+    client.println(message);
+    client.println();
 }
 
 void sendOK(WiFiClient client)
@@ -50,16 +61,6 @@ void sendError(WiFiClient client, String message)
     Console.println("Error - " + message);
 }
 
-void sendResponse(WiFiClient client, int code, String message)
-{
-    client.println("HTTP/1.1 " + String(code) + " " + message);
-    client.println("Content-Type: text/html");
-    client.println("Connection: close");
-    client.println();
-    client.println(message);
-    client.println();
-}
-
 void writeNode(CMD command)
 {
     Node.println("/" + str(command));
@@ -77,7 +78,7 @@ CMD readConsole()
         }
     }
 
-    return UNKNOWN;
+    return CMD::UNKNOWN;
 }
 
 CMD readNode()
@@ -92,5 +93,5 @@ CMD readNode()
         }
     }
 
-    return UNKNOWN;
+    return CMD::UNKNOWN;
 }

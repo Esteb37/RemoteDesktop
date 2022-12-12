@@ -2,7 +2,7 @@ enum CMD
 {
     START,
     STOP,
-    STATUS,
+    GETSTAT,
     DONE,
     UNKNOWN,
 };
@@ -17,9 +17,9 @@ CMD cmd(String command)
     {
         return CMD::STOP;
     }
-    else if (command == "STATUS")
+    else if (command == "GETSTAT" || command == "STATUS")
     {
-        return CMD::STATUS;
+        return CMD::GETSTAT;
     }
     else if (command == "DONE")
     {
@@ -39,8 +39,8 @@ String str(CMD cmd)
         return "START";
     case STOP:
         return "STOP";
-    case STATUS:
-        return "STATUS";
+    case GETSTAT:
+        return "GETSTAT";
     case DONE:
         return "DONE";
     case UNKNOWN:

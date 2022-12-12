@@ -1,14 +1,13 @@
-#include <Comm.h>
-#include <WifiSetup.h>
+#ifdef IS_NODE
+#include "Comm.h"
+#include "WifiSetup.h"
 
 namespace NODE
 {
-  STAT status = IDLE;
+  STAT status = STAT::IDLE;
 
   void setup()
   {
-    Node.begin(115200);
-    Console.begin(9200);
     WF::setup();
   }
 
@@ -39,24 +38,24 @@ namespace NODE
 
       switch (command)
       {
-      case START:
-        if (status == IDLE)
+      case CMD::START:
+        if (status == STAT::IDLE)
         {
-          status = RUNNING;
+          status = STAT::RUNNING;
           sendOK(client);
-          writeNode(START);
+          writeNode(CMD::START);
         }
         else
         {
           sendError(client, "Already running");
         }
         break;
-      case STOP:
-        if (status == RUNNING)
+      case CMD::STOP:
+        if (status == STAT::RUNNING)
         {
-          status = IDLE;
+          status = STAT::IDLE;
           sendOK(client);
-          writeNode(STOP);
+          writeNode(CMD::STOP);
         }
         else
         {
@@ -64,8 +63,8 @@ namespace NODE
         }
         break;
 
-      case STATUS:
-        sendOK(client, status == IDLE ? "IDLE" : "RUNNING");
+      case CMD::GETSTAT:
+        sendOK(client, status == STAT::IDLE ? "IDLE" : "RUNNING");
         break;
 
       default:
@@ -77,3 +76,5 @@ namespace NODE
     delay(1);
   }
 }
+
+#endif
