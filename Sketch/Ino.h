@@ -15,6 +15,17 @@ namespace INO
     delay(1000);
     Keyboard.print(NIP);
     Keyboard.write(KEY_RETURN);
+    for (int i = 0; i < 5; i++)
+    {
+      Console.println("REMOTE_DESKTOP");
+      delay(1000);
+      if (readConsole() == CMD::LOGON)
+      {
+        return;
+      }
+    }
+
+    writeNode(CMD::FAILURE);
   }
 
   void setup()

@@ -5,6 +5,8 @@ enum CMD
     GETSTAT,
     DONE,
     FAVICON,
+    LOGON,
+    FAILURE,
     UNKNOWN,
 };
 
@@ -32,6 +34,14 @@ CMD cmd(String command)
     {
         return CMD::FAVICON;
     }
+    else if (command == "LOGON")
+    {
+        return CMD::LOGON;
+    }
+    else if (command == "FAILURE")
+    {
+        return CMD::FAILURE;
+    }
     else
     {
         return CMD::UNKNOWN;
@@ -52,6 +62,10 @@ String str(CMD cmd)
         return "DONE";
     case FAVICON:
         return "FAVICON";
+    case LOGON:
+        return "LOGON";
+    case CMD::FAILURE:
+        return "FAILURE";
     case UNKNOWN:
         return "UNKNOWN";
     }
