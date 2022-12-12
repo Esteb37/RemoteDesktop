@@ -1,26 +1,24 @@
 #ifndef IS_NODE
 
 #include "Comm.h"
+#include "Keys.h"
 #include "Secret.h"
-#include <Keyboard.h>
-
-using namespace Secret;
 
 namespace INO
 {
 
   void triggerAutomation()
   {
-    Keyboard.write(' ');
-    delay(1000);
-    Keyboard.print(NIP);
-    Keyboard.write(KEY_RETURN);
+
+    inputNIP();
+
     for (int i = 0; i < 5; i++)
     {
-      Console.println("REMOTE_DESKTOP");
-      delay(1000);
+      delay(2000);
       if (readConsole() == CMD::LOGON)
       {
+        runPython();
+        writeNode(CMD::DONE);
         return;
       }
     }
@@ -52,6 +50,7 @@ namespace INO
       {
         triggerAutomation();
       }
+      Node.flush();
     }
   }
 }
