@@ -43,7 +43,7 @@ namespace NODE
           {
             status = STAT::RUNNING;
             sendOK(client);
-            writeNode(CMD::START);
+            nodeCommand(CMD::START);
           }
           else
           {
@@ -55,7 +55,7 @@ namespace NODE
           {
             status = STAT::IDLE;
             sendOK(client);
-            writeNode(CMD::STOP);
+            nodeCommand(CMD::STOP);
           }
           else
           {

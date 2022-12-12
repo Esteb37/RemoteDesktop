@@ -49,13 +49,36 @@ CMD getCommand(String req)
 {
     int start = req.indexOf("/");
     int end = req.indexOf(" ", start);
-    String command = req.substring(start + 1, end);
-    return cmd(command);
+    return cmd(req.substring(start + 1, end));
 }
 
-void writeNode(CMD command)
+STAT getStat(String req)
+{
+    int start = req.indexOf("+");
+    int end = req.indexOf(" ", start);
+    return stat(req.substring(start + 1, end));
+}
+
+ERR getErr(String req)
+{
+    int start = req.indexOf("+");
+    int end = req.indexOf(" ", start);
+    return err(req.substring(start + 1, end));
+}
+
+void nodeCommand(CMD command)
 {
     Node.println("/" + str(command));
+}
+
+void nodeStatus(STAT status)
+{
+    Node.println("/" + str(CMD::SETSTAT) + "+" + str(status));
+}
+
+void nodeFailure(ERR failure)
+{
+    Node.println("/" + str(CMD::FAILURE) + "+" + str(failure));
 }
 
 CMD readConsole()

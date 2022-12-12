@@ -16,7 +16,7 @@ TRIES = range(5)
 Console = None
 
 
-class Error:
+class Failure:
     NO_WIFI = "NO_WIFI"
     NO_SERIAL = "NO_SERIAL"
     NO_PARSEC = "NO_PARSEC"
@@ -29,15 +29,13 @@ class Status:
 
 
 def send_error(error):
-    print("Error: " + error)
-    Console.write(("/ERROR +"+error).encode("UTF-8"))
+    print("Failure: " + error)
+    Console.write(("/FAILURE +"+error).encode("UTF-8"))
 
 
 def send_status(status):
     print("Status: " + status)
-    print("here")
-    Console.write(("/STATUS +"+status).encode("UTF-8"))
-    print("here2")
+    Console.write(("/SETSTAT +"+status).encode("UTF-8"))
 
 
 def is_connected():

@@ -6,16 +6,28 @@ enum CMD
     SETSTAT,
     DONE,
     FAVICON,
-    LOGON,
     FAILURE,
     UNKNOWN,
 };
 
-enum Error
+enum STAT
+{
+    IDLE,
+    RUNNING,
+    POWERED,
+    LOGGED,
+    LOGON,
+    WIFI,
+    PARSEC,
+    ERROR
+};
+
+enum ERR
 {
     NO_WIFI,
     NO_SERIAL,
     NO_PARSEC,
+    NONE,
 };
 
 CMD cmd(String command)
@@ -46,10 +58,6 @@ CMD cmd(String command)
     {
         return CMD::FAVICON;
     }
-    else if (command == "LOGON")
-    {
-        return CMD::LOGON;
-    }
     else if (command == "FAILURE")
     {
         return CMD::FAILURE;
@@ -59,40 +67,6 @@ CMD cmd(String command)
         return CMD::UNKNOWN;
     }
 }
-
-String
-str(CMD cmd)
-{
-    switch (cmd)
-    {
-    case START:
-        return "START";
-    case STOP:
-        return "STOP";
-    case GETSTAT:
-        return "GETSTAT";
-    case SETSTAT:
-        return "SETSTAT";
-    case DONE:
-        return "DONE";
-    case FAVICON:
-        return "FAVICON";
-    case CMD::FAILURE:
-        return "FAILURE";
-    case UNKNOWN:
-        return "UNKNOWN";
-    }
-}
-
-enum STAT
-{
-    IDLE,
-    RUNNING,
-    LOGON,
-    WIFI,
-    PARSEC,
-    ERROR
-};
 
 STAT stat(String stat)
 {
@@ -122,6 +96,49 @@ STAT stat(String stat)
     }
 }
 
+ERR err(String err)
+{
+    if (err == "NO_WIFI")
+    {
+        return ERR::NO_WIFI;
+    }
+    else if (err == "NO_SERIAL")
+    {
+        return ERR::NO_SERIAL;
+    }
+    else if (err == "NO_PARSEC")
+    {
+        return ERR::NO_PARSEC;
+    }
+    else
+    {
+        return ERR::NONE;
+    }
+}
+
+String str(CMD cmd)
+{
+    switch (cmd)
+    {
+    case START:
+        return "START";
+    case STOP:
+        return "STOP";
+    case GETSTAT:
+        return "GETSTAT";
+    case SETSTAT:
+        return "SETSTAT";
+    case DONE:
+        return "DONE";
+    case FAVICON:
+        return "FAVICON";
+    case CMD::FAILURE:
+        return "FAILURE";
+    case UNKNOWN:
+        return "UNKNOWN";
+    }
+}
+
 String str(STAT stat)
 {
     switch (stat)
@@ -132,5 +149,20 @@ String str(STAT stat)
         return "RUNNING";
     case ERROR:
         return "ERROR";
+    }
+}
+
+String str(ERR err)
+{
+    switch (err)
+    {
+    case NO_WIFI:
+        return "NO_WIFI";
+    case NO_SERIAL:
+        return "NO_SERIAL";
+    case NO_PARSEC:
+        return "NO_PARSEC";
+    case NONE:
+        return "NONE";
     }
 }
