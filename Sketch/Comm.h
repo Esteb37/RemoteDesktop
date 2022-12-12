@@ -58,6 +58,49 @@ void sendNotFound()
     server.send(404, "text/plain", message);
 }
 
+void sendResponseHTTPS(int code, String message)
+{
+    setCrossOriginHTTPS();
+    serverHTTPS.send(code, "text/plain", message);
+}
+
+void sendOKHTTPS()
+{
+    sendResponseHTTPS(200, "OK");
+}
+
+void sendOKHTTPS(String message)
+{
+    sendResponseHTTPS(200, message);
+}
+
+void sendErrorHTTPS()
+{
+    sendResponseHTTPS(400, "Error");
+}
+
+void sendErrorHTTPS(String message)
+{
+    sendResponseHTTPS(400, message);
+}
+
+void sendNotFoundHTTPS()
+{
+    String message = "File Not Found\n\n";
+    message += "URI: ";
+    message += server.uri();
+    message += "\nMethod: ";
+    message += (server.method() == HTTP_GET) ? "GET" : "POST";
+    message += "\nArguments: ";
+    message += server.args();
+    message += "\n";
+    for (uint8_t i = 0; i < server.args(); i++)
+    {
+        message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+    }
+    serverHTTPS.send(404, "text/plain", message);
+}
+
 #endif
 
 CMD getCommand(String req)

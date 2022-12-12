@@ -134,7 +134,7 @@ String str(CMD cmd)
     case DONE:
         return command + "DONE";
     case FAVICON:
-        return command + "FAVICON";
+        return command + "FAVICON.ICO";
     case CMD::FAILURE:
         return command + "FAILURE";
     default:
