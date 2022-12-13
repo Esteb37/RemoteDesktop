@@ -3,6 +3,7 @@ from time import sleep
 import serial
 import serial.tools.list_ports as list_ports
 import psutil
+import socket
 import subprocess
 import win32api
 import win32con

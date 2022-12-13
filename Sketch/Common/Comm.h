@@ -11,25 +11,31 @@
 #define Node Serial
 #endif
 
+String find(String req, String prefix)
+{
+    req.trim();
+    int start = req.indexOf(prefix);
+    int end = req.indexOf(" ", start);
+    if (end == -1)
+    {
+        end = req.length();
+    }
+    return req.substring(start, end);
+}
+
 CMD getCommand(String req)
 {
-    int start = req.indexOf("/");
-    int end = req.indexOf(" ", start);
-    return cmd(req.substring(start + 1, end));
+    return cmd(find(req, CMD_PREFIX));
 }
 
 STAT getStat(String req)
 {
-    int start = req.indexOf("+");
-    int end = req.indexOf(" ", start);
-    return stat(req.substring(start + 1, end));
+    return stat(find(req, STAT_PREFIX));
 }
 
 ERR getErr(String req)
 {
-    int start = req.indexOf("+");
-    int end = req.indexOf(" ", start);
-    return err(req.substring(start + 1, end));
+    return err(find(req, ERR_PREFIX));
 }
 
 void nodeCommand(CMD command)
@@ -39,12 +45,12 @@ void nodeCommand(CMD command)
 
 void nodeStatus(STAT status)
 {
-    Node.println(str(CMD::SETSTAT) + "+" + str(status));
+    Node.println(str(CMD::SETSTAT) + " " + str(status));
 }
 
 void nodeFailure(ERR failure)
 {
-    Node.println(str(CMD::FAILURE) + "+" + str(failure));
+    Node.println(str(CMD::FAILURE) + " " + str(failure));
 }
 
 CMD readConsole()

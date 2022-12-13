@@ -1,6 +1,10 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+const String CMD_PREFIX = "/";
+const String STAT_PREFIX = "+";
+const String ERR_PREFIX = "-";
+
 enum CMD
 {
     START,
@@ -35,8 +39,8 @@ enum ERR
 
 CMD cmd(String command)
 {
-    command.replace("/", "");
-
+    command.trim();
+    command.replace(CMD_PREFIX, "");
     command.toUpperCase();
 
     if (command == "START" || command == "RUN")
@@ -75,8 +79,9 @@ CMD cmd(String command)
 
 STAT stat(String stat)
 {
+    stat.trim();
+    stat.replace(STAT_PREFIX, "");
     stat.toUpperCase();
-    stat.replace("+", "");
 
     if (stat == "IDLE")
     {
@@ -114,6 +119,10 @@ STAT stat(String stat)
 
 ERR err(String err)
 {
+    err.trim();
+    err.replace(ERR_PREFIX, "");
+    err.toUpperCase();
+
     if (err == "NO_WIFI")
     {
         return ERR::NO_WIFI;
@@ -134,25 +143,25 @@ ERR err(String err)
 
 String str(CMD cmd)
 {
-    String command = "/";
+
     switch (cmd)
     {
     case START:
-        return command + "START";
+        return CMD_PREFIX + "START";
     case STOP:
-        return command + "STOP";
+        return CMD_PREFIX + "STOP";
     case GETSTAT:
-        return command + "GETSTAT";
+        return CMD_PREFIX + "GETSTAT";
     case SETSTAT:
-        return command + "SETSTAT";
+        return CMD_PREFIX + "SETSTAT";
     case DONE:
-        return command + "DONE";
+        return CMD_PREFIX + "DONE";
     case FAVICON:
-        return command + "FAVICON.ICO";
+        return CMD_PREFIX + "FAVICON.ICO";
     case CMD::FAILURE:
-        return command + "FAILURE";
+        return CMD_PREFIX + "FAILURE";
     default:
-        return command + "UNKNOWN";
+        return CMD_PREFIX + "UNKNOWN";
     }
 }
 
@@ -168,21 +177,21 @@ String str(STAT stat)
     switch (stat)
     {
     case IDLE:
-        return "IDLE";
+        return STAT_PREFIX + "IDLE";
     case RUNNING:
-        return "RUNNING";
+        return STAT_PREFIX + "RUNNING";
     case POWERED:
-        return "POWERED";
+        return STAT_PREFIX + "POWERED";
     case LOGGED:
-        return "LOGGED";
+        return STAT_PREFIX + "LOGGED";
     case LOGON:
-        return "LOGON";
+        return STAT_PREFIX + "LOGON";
     case WIFI:
-        return "WIFI";
+        return STAT_PREFIX + "WIFI";
     case PARSEC:
-        return "PARSEC";
+        return STAT_PREFIX + "PARSEC";
     case STAT::ERROR:
-        return "ERROR";
+        return STAT_PREFIX + "ERROR";
     }
 }
 
@@ -191,13 +200,13 @@ String str(ERR err)
     switch (err)
     {
     case NO_WIFI:
-        return "NO_WIFI";
+        return ERR_PREFIX + "NO_WIFI";
     case NO_SERIAL:
-        return "NO_SERIAL";
+        return ERR_PREFIX + "NO_SERIAL";
     case NO_PARSEC:
-        return "NO_PARSEC";
+        return ERR_PREFIX + "NO_PARSEC";
     case NONE:
-        return "NONE";
+        return ERR_PREFIX + "NONE";
     }
 }
 

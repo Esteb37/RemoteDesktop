@@ -9,21 +9,23 @@ namespace INO
 
 #define SWITCH 12
 
+  void powerOn()
+  {
+    Console.println("Powering On");
+    digitalWrite(SWITCH, LOW);
+    delay(1000);
+    digitalWrite(SWITCH, HIGH);
+    nodeStatus(STAT::POWERED);
+  }
+
   void inputNIP()
   {
+    Console.println("Inputting NIP");
     Keyboard.write(' ');
     delay(1000);
     Keyboard.print(Secret::NIP);
     Keyboard.write(KEY_RETURN);
     nodeStatus(STAT::LOGGED);
-  }
-
-  void powerOn()
-  {
-    digitalWrite(SWITCH, LOW);
-    delay(1000);
-    digitalWrite(SWITCH, HIGH);
-    nodeStatus(STAT::POWERED);
   }
 
   ERR waitForStatus(STAT stat)
@@ -56,10 +58,14 @@ namespace INO
     delay(30000);
     inputNIP();
 
+    Console.println("Waiting for automation");
+
     STAT statuses[] = {LOGON, WIFI, PARSEC};
 
     for (STAT status : statuses)
     {
+
+      Console.println("Waiting for " + str(status));
       ERR failure = waitForStatus(status);
       if (failure != ERR::NONE)
       {
@@ -73,24 +79,6 @@ namespace INO
     }
 
     nodeCommand(CMD::DONE);
-  }
-
-  void checkStatus()
-  {
-    if (Console.available() > 0)
-    {
-      String req = Console.readStringUntil('\n');
-      CMD command = getCommand(req);
-      if (command == CMD::SETSTAT)
-      {
-        STAT status = getStat(req);
-        Node.println(str(command) + "+" + str(status));
-      }
-      else if (command == CMD::FAILURE)
-      {
-        Node.println(str(command));
-      }
-    }
   }
 
   void setup()

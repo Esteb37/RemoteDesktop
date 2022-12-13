@@ -25,7 +25,10 @@ namespace NODE
     if (Node.available() > 0)
     {
       String line = Node.readStringUntil('\n');
+      line.trim();
+
       CMD command = getCommand(line);
+
       if (command == CMD::SETSTAT)
       {
         status = getStat(line);
@@ -35,6 +38,8 @@ namespace NODE
         status = STAT::ERROR;
         error = getErr(line);
       }
+
+      Node.flush();
     }
   }
 }

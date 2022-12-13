@@ -31,7 +31,7 @@ namespace NODE
 
     void onStop(bool https = false)
     {
-        if (status == STAT::RUNNING)
+        if (status != STAT::IDLE)
         {
             status = STAT::IDLE;
             sendOK(https);
