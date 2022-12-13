@@ -14,6 +14,7 @@ enum CMD
     DONE,
     FAVICON,
     FAILURE,
+    AK,
     UNKNOWN,
 };
 
@@ -26,6 +27,7 @@ enum STAT
     LOGON,
     WIFI,
     PARSEC,
+    HOSTING,
     ERROR
 };
 
@@ -71,6 +73,10 @@ CMD cmd(String command)
     {
         return CMD::FAILURE;
     }
+    else if (command == "AK")
+    {
+        return CMD::AK;
+    }
     else
     {
         return CMD::UNKNOWN;
@@ -110,6 +116,10 @@ STAT stat(String stat)
     else if (stat == "PARSEC")
     {
         return STAT::PARSEC;
+    }
+    else if (stat == "HOSTING")
+    {
+        return STAT::HOSTING;
     }
     else
     {
@@ -160,6 +170,8 @@ String str(CMD cmd)
         return CMD_PREFIX + "FAVICON.ICO";
     case CMD::FAILURE:
         return CMD_PREFIX + "FAILURE";
+    case AK:
+        return CMD_PREFIX + "AK";
     default:
         return CMD_PREFIX + "UNKNOWN";
     }
@@ -190,6 +202,8 @@ String str(STAT stat)
         return STAT_PREFIX + "WIFI";
     case PARSEC:
         return STAT_PREFIX + "PARSEC";
+    case HOSTING:
+        return STAT_PREFIX + "HOSTING";
     case STAT::ERROR:
         return STAT_PREFIX + "ERROR";
     }

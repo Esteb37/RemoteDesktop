@@ -11,16 +11,15 @@ namespace INO
 
   void powerOn()
   {
-    Console.println("Powering On");
     digitalWrite(SWITCH, LOW);
     delay(1000);
     digitalWrite(SWITCH, HIGH);
+    delay(30000);
     nodeStatus(STAT::POWERED);
   }
 
   void inputNIP()
   {
-    Console.println("Inputting NIP");
     Keyboard.write(' ');
     delay(1000);
     Keyboard.print(Secret::NIP);
@@ -30,23 +29,30 @@ namespace INO
 
   ERR waitForStatus(STAT stat)
   {
-    for (int i = 0; i < 5; i++)
+
+    long start = millis();
+
+    while (millis() - start < 10000)
     {
 
-      String line = Console.readStringUntil('\n');
-
-      CMD command = getCommand(line);
-
-      if (command == CMD::SETSTAT && getStat(line) == stat)
+      if (Console.available() > 0)
       {
-        return ERR::NONE;
-      }
-      else if (command == CMD::FAILURE)
-      {
-        return getErr(line);
-      }
 
-      delay(1000);
+        String line = Console.readStringUntil('\n');
+
+        line.trim();
+
+        CMD command = getCommand(line);
+
+        if (command == CMD::SETSTAT && getStat(line) == stat)
+        {
+          return ERR::NONE;
+        }
+        else if (command == CMD::FAILURE)
+        {
+          return getErr(line);
+        }
+      }
     }
 
     return ERR::NO_SERIAL;
@@ -55,17 +61,12 @@ namespace INO
   void triggerAutomation()
   {
     powerOn();
-    delay(30000);
     inputNIP();
-
-    Console.println("Waiting for automation");
 
     STAT statuses[] = {LOGON, WIFI, PARSEC};
 
     for (STAT status : statuses)
     {
-
-      Console.println("Waiting for " + str(status));
       ERR failure = waitForStatus(status);
       if (failure != ERR::NONE)
       {
@@ -75,24 +76,22 @@ namespace INO
       else
       {
         nodeStatus(status);
+        consoleCommand(CMD::AK);
       }
     }
 
-    nodeCommand(CMD::DONE);
+    nodeStatus(STAT::HOSTING);
   }
 
   void setup()
   {
 
     pinMode(SWITCH, OUTPUT);
-
     Node.begin(115200);
     Console.begin(9600);
     Keyboard.begin();
 
     delay(1000);
-
-    Console.println("Ready");
   }
 
   void loop()

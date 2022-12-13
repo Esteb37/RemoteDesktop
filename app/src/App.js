@@ -23,7 +23,7 @@ function App() {
 			dataType: 'text',
 			error: function (error) {
 				// IF error status is 0, it means the server is not reachable
-				if (error?.status == 0) {
+				if (error?.status === 0) {
 					setError(`Server is not reachable.`);
 					return;
 				}
@@ -50,23 +50,15 @@ function App() {
 			type: 'GET',
 			dataType: 'text',
 			success: function (data) {
-				setStat(data);
-				setTimeout(getIt, 2000);
+				setStat(data.trim().replaceAll('+', ''));
+				setTimeout(getIt, 1000);
 			},
 			error: function (error) {
-				if (error?.status == 0) {
+				if (error?.status === 0) {
 					setError(`Server is not reachable.`);
 					return;
 				}
-				setError(
-					error?.responseText +
-						'\n' +
-						error?.statusText +
-						'\n' +
-						error?.status +
-						'\n' +
-						error?.responseJSON?.error?.message
-				);
+				setError(error?.responseText.trim().replaceAll('-', ''));
 			},
 		});
 	}
@@ -111,11 +103,10 @@ function App() {
 					{stat}
 				</Mui.Typography>
 
-				{error && (
+				{error && error !== 'NONE' && (
 					<Alert
 						severity='error'
-						style={{ margin: '1rem', width: '10rem' }}
-						hidden={error == null}>
+						style={{ margin: '1rem', width: '10rem' }}>
 						<Mui.Typography
 							variant='body2'
 							dangerouslySetInnerHTML={{ __html: error }}

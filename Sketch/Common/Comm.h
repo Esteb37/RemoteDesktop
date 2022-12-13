@@ -15,11 +15,20 @@ String find(String req, String prefix)
 {
     req.trim();
     int start = req.indexOf(prefix);
-    int end = req.indexOf(" ", start);
-    if (end == -1)
+
+    // end is any non-alphanumeric character after the prefix
+    int end = start + prefix.length();
+    while (end < req.length() && isalnum(req[end]))
     {
-        end = req.length();
+        end++;
     }
+
+    if (start == -1 || end == -1)
+    {
+        return "";
+    }
+
+    start += prefix.length();
     return req.substring(start, end);
 }
 
@@ -51,6 +60,21 @@ void nodeStatus(STAT status)
 void nodeFailure(ERR failure)
 {
     Node.println(str(CMD::FAILURE) + " " + str(failure));
+}
+
+void consoleCommand(CMD command)
+{
+    Console.println(str(command));
+}
+
+void consoleStatus(STAT status)
+{
+    Console.println(str(CMD::SETSTAT) + " " + str(status));
+}
+
+void consoleFailure(ERR failure)
+{
+    Console.println(str(CMD::FAILURE) + " " + str(failure));
 }
 
 CMD readConsole()
