@@ -75,6 +75,9 @@ CMD cmd(String command)
 
 STAT stat(String stat)
 {
+    stat.toUpperCase();
+    stat.replace("+", "");
+
     if (stat == "IDLE")
     {
         return STAT::IDLE;
@@ -82,6 +85,14 @@ STAT stat(String stat)
     else if (stat == "RUNNING")
     {
         return STAT::RUNNING;
+    }
+    else if (stat == "POWERED")
+    {
+        return STAT::POWERED;
+    }
+    else if (stat == "LOGGED")
+    {
+        return STAT::LOGGED;
     }
     else if (stat == "LOGON")
     {
@@ -160,7 +171,17 @@ String str(STAT stat)
         return "IDLE";
     case RUNNING:
         return "RUNNING";
-    case ERROR:
+    case POWERED:
+        return "POWERED";
+    case LOGGED:
+        return "LOGGED";
+    case LOGON:
+        return "LOGON";
+    case WIFI:
+        return "WIFI";
+    case PARSEC:
+        return "PARSEC";
+    case STAT::ERROR:
         return "ERROR";
     }
 }

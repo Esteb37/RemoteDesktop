@@ -81,10 +81,10 @@ namespace SERVER
                          { sendNotFound(true); });
 
         https.begin();
-        Console.println("\nHTTPS Server started\n");
+        Console.println("HTTPS Server started");
 
         http.begin();
-        Console.println("\nHTTP Server started\n");
+        Console.println("HTTP Server started");
     }
 
 }
