@@ -91,7 +91,9 @@ namespace INO
     Console.begin(9600);
     Keyboard.begin();
 
-    delay(1000);
+    delay(3000);
+
+    Console.println("Ready");
   }
 
   void loop()

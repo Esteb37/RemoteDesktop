@@ -113,8 +113,12 @@ def aknowledge():
 
 def main():
 
-    if not connect_to_serial():
-        send_error(Error.NO_SERIAL)
+    try:
+        if not connect_to_serial():
+            send_error(Error.NO_SERIAL)
+            return
+    except:
+        print("No serial")
         return
 
     send_status(Status.LOGON)
@@ -143,4 +147,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    input()
