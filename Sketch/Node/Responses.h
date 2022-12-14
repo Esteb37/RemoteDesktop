@@ -26,24 +26,24 @@ namespace SERVER
         }
     }
 
-    void sendOK(bool https = false)
+    void sendOK(bool using_https = false)
     {
-        sendResponse(200, "OK", https);
+        sendResponse(200, "OK", using_https);
     }
 
-    void sendOK(String message, bool https = false)
+    void sendOK(String message, bool using_https = false)
     {
-        sendResponse(200, message, https);
+        sendResponse(200, message, using_https);
     }
 
-    void sendError(bool https = false)
+    void sendError(bool using_https = false)
     {
-        sendResponse(400, "Error", https);
+        sendResponse(400, "Error", using_https);
     }
 
-    void sendError(String message, bool https = false)
+    void sendError(String message, bool using_https = false)
     {
-        sendResponse(400, message, https);
+        sendResponse(400, message, using_https);
     }
 
     void sendNotFound(bool using_https = false)

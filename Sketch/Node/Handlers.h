@@ -15,43 +15,43 @@ namespace NODE
     STAT status = STAT::IDLE;
     ERR error = ERR::NONE;
 
-    void onStart(bool https = false)
+    void onStart(bool using_https = false)
     {
         if (status == STAT::IDLE)
         {
             status = STAT::RUNNING;
-            sendOK(https);
+            sendOK(using_https);
             nodeCommand(CMD::START);
         }
         else
         {
-            sendError("Already Running", https);
+            sendError("Already Running", using_https);
         }
     }
 
-    void onStop(bool https = false)
+    void onStop(bool using_https = false)
     {
         if (status != STAT::IDLE)
         {
             status = STAT::IDLE;
-            sendOK(https);
+            sendOK(using_https);
             nodeCommand(CMD::STOP);
         }
         else
         {
-            sendError("Already Stopped", https);
+            sendError("Already Stopped", using_https);
         }
     }
 
-    void onGetStat(bool https = false)
+    void onGetStat(bool using_https = false)
     {
         if (status != STAT::ERROR)
         {
-            sendOK(str(status), https);
+            sendOK(str(status), using_https);
         }
         else
         {
-            sendError(str(error), https);
+            sendError(str(error), using_https);
         }
     }
 }
