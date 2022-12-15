@@ -8,23 +8,11 @@ import win32api
 import win32con
 import os
 import Secret
-
+from Types import *
 
 TIMEOUT = 30
 
 Console = None
-
-
-class Error:
-    NO_WIFI = "NO_WIFI"
-    NO_SERIAL = "NO_SERIAL"
-    NO_PARSEC = "NO_PARSEC"
-
-
-class Status:
-    LOGON = "LOGON"
-    WIFI = "WIFI"
-    PARSEC = "PARSEC"
 
 
 def send_error(error):
@@ -69,6 +57,7 @@ def connect_to_serial():
         for p in ports:
             if "Arduino" in p.description or "Leonardo" in p.description:
                 COM = p.device
+                break
 
         Console = serial.Serial(COM, 9600, timeout=1)
 
@@ -125,6 +114,7 @@ def main():
 
     if (not aknowledge()):
         send_error(Error.NO_SERIAL)
+        return
 
     if not connect_to_wifi():
         send_error(Error.NO_WIFI)
@@ -134,6 +124,7 @@ def main():
 
     if (not aknowledge()):
         send_error(Error.NO_SERIAL)
+        return
 
     if not open_parsec():
         send_error(Error.NO_PARSEC)
@@ -143,6 +134,7 @@ def main():
 
     if (not aknowledge()):
         send_error(Error.NO_SERIAL)
+        return
 
 
 if __name__ == "__main__":

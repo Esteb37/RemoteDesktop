@@ -110,6 +110,21 @@ namespace INO
       }
       Node.flush();
     }
+
+    if (Console.available() > 0)
+    {
+      String line = Console.readStringUntil('\n');
+      line.trim();
+      CMD command = getCommand(line);
+      if (command == CMD::SETSTAT)
+      {
+        nodeStatus(getStat(line));
+      }
+      else if (command == CMD::FAILURE)
+      {
+        nodeFailure(getErr(line));
+      }
+    }
   }
 }
 

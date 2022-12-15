@@ -37,9 +37,12 @@ function App() {
 						'<br>' +
 						error?.responseJSON?.error
 				);
-			},
-			complete: function () {
 				setLoading({ ...loading, [path.toLowerCase()]: false });
+			},
+			success: function () {
+				if (path.toLowerCase() !== 'start') {
+					setLoading({ ...loading, [path.toLowerCase()]: false });
+				}
 			},
 		});
 	}
@@ -50,7 +53,18 @@ function App() {
 			type: 'GET',
 			dataType: 'text',
 			success: function (data) {
-				setStat(data.trim().replaceAll('+', ''));
+				const stat = data.trim().replaceAll('+', '');
+
+				setStat(stat);
+
+				if (stat === 'HOSTING' && loading.start) {
+					setLoading({ ...loading, start: false });
+					window.open(
+						`https://parsec.gg/g/2Ie4G77qx1lIPsY8h2haVjU8KjN/f81a79e9/`,
+						'_blank'
+					);
+				}
+
 				setTimeout(getIt, 1000);
 			},
 			error: function (error) {
@@ -65,7 +79,7 @@ function App() {
 
 	React.useEffect(() => {
 		getIt();
-	}, [getIt]);
+	}, []);
 
 	const [stat, setStat] = React.useState('Waiting for status...');
 
@@ -88,6 +102,7 @@ function App() {
 					style={{ margin: '1rem', width: '10rem' }}
 					variant='contained'
 					color='primary'
+					disabled={stat !== 'IDLE'}
 					onClick={() => call('START')}>
 					Start
 				</LoadingButton>
@@ -96,8 +111,31 @@ function App() {
 					style={{ margin: '1rem', width: '10rem' }}
 					variant='contained'
 					color='secondary'
+					disabled={stat === 'IDLE'}
 					onClick={() => call('STOP')}>
 					Stop
+				</LoadingButton>
+				<LoadingButton
+					style={{ margin: '1rem', width: '10rem' }}
+					variant='outlined'
+					color='primary'
+					disabled={stat !== 'HOSTING'}
+					onClick={() =>
+						window.open(
+							`https://parsec.gg/g/2Ie4G77qx1lIPsY8h2haVjU8KjN/f81a79e9/`,
+							'_blank'
+						)
+					}>
+					Open Host
+				</LoadingButton>
+				<LoadingButton
+					style={{ margin: '1rem', width: '10rem' }}
+					variant='outlined'
+					color='secondary'
+					onClick={() =>
+						window.open(`https://${Secret.ip}/`, '_blank')
+					}>
+					Trust
 				</LoadingButton>
 				<Mui.Typography variant='h6' style={{ margin: '1rem' }}>
 					{stat}

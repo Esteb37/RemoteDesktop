@@ -1,0 +1,10 @@
+Try
+Attempt
+Arduino Leonardo (COM11)
+Found
+COM: COM11
+Serial: True
+Serial open
+Status: POWERED
+End
+End of script
