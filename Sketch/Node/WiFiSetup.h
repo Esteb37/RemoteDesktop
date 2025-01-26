@@ -1,3 +1,5 @@
+#ifdef IS_NODE
+
 #ifndef WIFISETUP_H
 #define WIFISETUP_H
 
@@ -53,5 +55,7 @@ namespace WF
         }
     }
 }
+
+#endif
 
 #endif

@@ -86,7 +86,7 @@ def main():
         return
 
     try:
-        send_status(Status.POWERED)
+        send_status(Status.IDLE)
     except Exception as e:
         log("Except: " + str(e))
         return

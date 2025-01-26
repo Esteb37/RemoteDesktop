@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import * as Secret from './secret';
 import LoadingButton from '@mui/lab/LoadingButton';
 import $ from 'jquery';
+import * as Icons from '@mui/icons-material';
 
 function App() {
 	const [url] = React.useState(`https://${Secret.ip}/`);
@@ -28,21 +29,11 @@ function App() {
 					return;
 				}
 
-				setError(
-					error?.responseText +
-						'<br>' +
-						error?.statusText +
-						'<br>' +
-						error?.status +
-						'<br>' +
-						error?.responseJSON?.error
-				);
+				setError(error?.responseText);
 				setLoading({ ...loading, [path.toLowerCase()]: false });
 			},
-			success: function () {
-				if (path.toLowerCase() !== 'start') {
-					setLoading({ ...loading, [path.toLowerCase()]: false });
-				}
+			complete: function () {
+				setLoading({ ...loading, [path.toLowerCase()]: false });
 			},
 		});
 	}
@@ -56,14 +47,6 @@ function App() {
 				const stat = data.trim().replaceAll('+', '');
 
 				setStat(stat);
-
-				if (stat === 'HOSTING' && loading.start) {
-					setLoading({ ...loading, start: false });
-					window.open(
-						`https://parsec.gg/g/2Ie4G77qx1lIPsY8h2haVjU8KjN/f81a79e9/`,
-						'_blank'
-					);
-				}
 
 				setTimeout(getIt, 1000);
 			},
@@ -136,6 +119,13 @@ function App() {
 						window.open(`https://${Secret.ip}/`, '_blank')
 					}>
 					Trust
+				</LoadingButton>
+				<LoadingButton
+					style={{ margin: '1rem', width: '10rem' }}
+					variant='text'
+					color='secondary'
+					onClick={() => call('SHUTOFF')}>
+					<Icons.PowerSettingsNew />
 				</LoadingButton>
 				<Mui.Typography variant='h6' style={{ margin: '1rem' }}>
 					{stat}

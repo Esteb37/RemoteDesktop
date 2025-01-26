@@ -1,4 +1,5 @@
 #ifdef IS_NODE
+
 #ifndef RESPONSES_H
 #define RESPONSES_H
 

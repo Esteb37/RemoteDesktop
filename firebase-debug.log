@@ -1,0 +1,25 @@
+[debug] [2022-12-23T00:30:41.393Z] ----------------------------------------------------------------------
+[debug] [2022-12-23T00:30:41.395Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Esteban\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js hosting:disable
+[debug] [2022-12-23T00:30:41.395Z] CLI Version:   10.6.0
+[debug] [2022-12-23T00:30:41.395Z] Platform:      win32
+[debug] [2022-12-23T00:30:41.395Z] Node Version:  v14.17.5
+[debug] [2022-12-23T00:30:41.396Z] Time:          Thu Dec 22 2022 18:30:41 GMT-0600 (hora estándar central)
+[debug] [2022-12-23T00:30:41.396Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-23T00:30:41.398Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-12-23T00:30:41.415Z] > refreshing access token with scopes: []
+[debug] [2022-12-23T00:30:41.415Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2022-12-23T00:30:41.579Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","date":"Fri, 23 Dec 2022 00:30:39 GMT","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2022-12-23T00:30:41.591Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/undefined [none]
+[debug] [2022-12-23T00:30:41.597Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2022-12-23T00:30:41.597Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2022-12-23T00:30:41.896Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/undefined 403
+[debug] [2022-12-23T00:30:41.896Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/undefined {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2022-12-23T00:30:41.897Z] HTTP Error: 403, The caller does not have permission
+[debug] [2022-12-23T00:30:42.054Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at module.exports (C:\Users\Esteban\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:47:12)
+    at RetryOperation._fn (C:\Users\Esteban\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:286:39)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+[error] 
+[error] Error: Failed to get Firebase project undefined. Please make sure the project exists and your account has permission to access it.

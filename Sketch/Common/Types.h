@@ -15,6 +15,7 @@ enum CMD
     FAVICON,
     FAILURE,
     AK,
+    SHUTOFF,
     UNKNOWN,
 };
 
@@ -76,6 +77,10 @@ CMD cmd(String command)
     else if (command == "AK")
     {
         return CMD::AK;
+    }
+    else if (command == "SHUTOFF")
+    {
+        return CMD::SHUTOFF;
     }
     else
     {
@@ -172,6 +177,8 @@ String str(CMD cmd)
         return CMD_PREFIX + "FAILURE";
     case AK:
         return CMD_PREFIX + "AK";
+    case SHUTOFF:
+        return CMD_PREFIX + "SHUTOFF";
     default:
         return CMD_PREFIX + "UNKNOWN";
     }

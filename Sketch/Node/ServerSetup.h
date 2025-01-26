@@ -16,6 +16,7 @@ namespace NODE
     void onStart(bool);
     void onStop(bool);
     void onGetStat(bool);
+    void onShutoff(bool);
 }
 
 namespace SERVER
@@ -73,6 +74,8 @@ namespace SERVER
         on(str(CMD::STOP), NODE::onStop);
 
         on(str(CMD::GETSTAT), NODE::onGetStat);
+
+        on(str(CMD::SHUTOFF), NODE::onShutoff);
 
         http.onNotFound([]()
                         { sendNotFound(false); });

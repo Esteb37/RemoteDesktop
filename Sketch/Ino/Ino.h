@@ -12,7 +12,7 @@ namespace INO
   void powerOn()
   {
     digitalWrite(SWITCH, LOW);
-    delay(1000);
+    delay(500);
     digitalWrite(SWITCH, HIGH);
     delay(30000);
     nodeStatus(STAT::POWERED);
@@ -25,6 +25,14 @@ namespace INO
     Keyboard.print(Secret::NIP);
     Keyboard.write(KEY_RETURN);
     nodeStatus(STAT::LOGGED);
+  }
+
+  void shutOff()
+  {
+    digitalWrite(SWITCH, LOW);
+    delay(5000);
+    digitalWrite(SWITCH, HIGH);
+    nodeStatus(STAT::IDLE);
   }
 
   ERR waitForStatus(STAT stat)
@@ -107,6 +115,10 @@ namespace INO
       if (command == CMD::START)
       {
         triggerAutomation();
+      }
+      else if (command == CMD::SHUTOFF)
+      {
+        shutOff();
       }
       Node.flush();
     }

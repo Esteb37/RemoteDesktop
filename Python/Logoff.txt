@@ -1,10 +1,8 @@
 Try
 Attempt
-Arduino Leonardo (COM11)
-Found
+Puerto de comunicaciones (COM1)
+Serie estándar sobre el vínculo Bluetooth (COM4)
+Serie estándar sobre el vínculo Bluetooth (COM3)
 COM: COM11
-Serial: True
-Serial open
-Status: POWERED
-End
+Except: No serial
 End of script

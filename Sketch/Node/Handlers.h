@@ -54,6 +54,19 @@ namespace NODE
             sendError(str(error), using_https);
         }
     }
+
+    void onShutoff(bool using_https = false)
+    {
+        if (status != STAT::IDLE)
+        {
+            sendOK("Shutting Down", using_https);
+            nodeCommand(CMD::SHUTOFF);
+        }
+        else
+        {
+            sendError("Already off", using_https);
+        }
+    }
 }
 
 #endif
